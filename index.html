@@ -3,643 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>求職導航儀 v2.0</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>職涯導航儀 | 浮島深聊 fudao-talk</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:       #0a1628;
-    --card:     #0e2240;
-    --card2:    #112544;
-    --accent:   #4fa3e0;
-    --accent2:  #7fc4f5;
-    --gold:     #c9a84c;
-    --gold-l:   #e8c96a;
-    --cream:    #f5f0e8;
-    --text:     #d4e8f5;
-    --dim:      #7aa8cc;
-    --border:   #1a3a5c;
-    --green:    #4cc98a;
-    --red:      #e05c5c;
-    --opt-bg:   #0d1e38;
-    --opt-hvr:  #112848;
-    --opt-sel:  #0f2540;
-    --enc-bg:   #0c1a2e;
-    --seg-off:  #1a3a5c;
+    --bg: #0a1628; --card: #0e2240; --card2: #112544; --accent: #4fa3e0; --text: #d4e8f5; --border: #1a3a5c;
   }
-  .light {
-    --bg:       #F0F4F8;
-    --card:     #FFFFFF;
-    --card2:    #F8FAFC;
-    --accent:   #2563EB;
-    --accent2:  #1D4ED8;
-    --gold:     #B45309;
-    --gold-l:   #D97706;
-    --cream:    #1E293B;
-    --text:     #0F172A;
-    --dim:      #64748B;
-    --border:   #E2E8F0;
-    --green:    #059669;
-    --red:      #DC2626;
-    --opt-bg:   #FFFFFF;
-    --opt-hvr:  #EFF6FF;
-    --opt-sel:  #DBEAFE;
-    --enc-bg:   #FFFBEB;
-    --seg-off:  #CBD5E1;
+  body { 
+    background-color: var(--bg); color: var(--text); font-family: 'Noto Serif TC', serif; 
+    margin: 0; display: flex; flex-direction: column; min-height: 100vh;
+    background-image: radial-gradient(circle at 50% 0%, rgba(79, 163, 224, 0.05) 0%, transparent 70%);
+  }
+  
+  /* Top Bar */
+  header {
+    background: var(--card); border-bottom: 1px solid var(--border);
+    padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand-group { display: flex; align-items: center; gap: 8px; }
+  .about-link { font-size: 11px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; transition: 0.3s; }
+  .about-link:hover { background: rgba(79, 163, 224, 0.1); }
+
+  /* Trust Anchor */
+  .trust-anchor {
+    background: rgba(79, 163, 224, 0.1); border-bottom: 1px solid rgba(79, 163, 224, 0.2);
+    padding: 8px 0; text-align: center; font-size: 11px; color: var(--accent); letter-spacing: 1px;
   }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  main { width: 100%; max-width: 500px; margin: 0 auto; padding: 20px 15px; flex: 1; }
+  
+  /* 雙層卡片視覺 */
+  .card-shell { border-radius: 16px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.4); animation: fadeIn 0.5s; }
+  .card-top { background: var(--card); padding: 25px 20px; text-align: center; border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; }
+  .card-body { background: var(--card2); padding: 20px; border: 1px solid var(--border); border-radius: 0 0 16px 16px; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Serif TC', serif;
-    min-height: 100vh;
-    transition: background 0.3s, color 0.3s;
-    overflow-x: hidden;
+  .opt-btn { 
+    background: #0d1e38; border: 1px solid var(--border); padding: 15px; border-radius: 10px; 
+    margin-bottom: 8px; cursor: pointer; display: flex; justify-content: space-between; font-size: 15px; transition: 0.2s;
   }
+  .opt-btn:hover { border-color: var(--accent); background: #112848; transform: translateX(5px); }
 
-  /* Ocean wave background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 50% at 20% 80%, rgba(79,163,224,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(201,168,76,0.04) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+  /* 隱私聲明：強制出現在第一視覺區 */
+  .privacy-sticky {
+    margin: 15px auto; text-align: center; font-size: 11px; opacity: 0.5; line-height: 1.6; max-width: 400px;
   }
 
-  /* ── Top bar ── */
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 24px;
-    backdrop-filter: blur(12px);
-    transition: background 0.3s, border-color 0.3s;
-  }
-  .logo {
-    font-family: 'DM Mono', monospace;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--gold);
-    letter-spacing: 0.02em;
-  }
-  .theme-btn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--dim);
-    font-size: 12px;
-    font-family: 'DM Mono', monospace;
-    padding: 5px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+  footer { margin-top: 40px; padding: 30px 20px; text-align: center; border-top: 1px solid var(--border); opacity: 0.6; font-size: 11px; }
 
-  /* ── Main content ── */
-  main {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 32px 16px 60px;
-    min-height: calc(100vh - 53px);
-  }
-
-  /* ── Card shell ── */
-  .card-shell {
-    width: 100%;
-    max-width: 520px;
-    animation: fadeUp 0.4s ease both;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .card-top {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px 16px 0 0;
-    padding: 28px 32px;
-    text-align: center;
-    transition: background 0.3s, border-color 0.3s;
-  }
-  .card-body {
-    background: var(--card2);
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 16px 16px;
-    padding: 24px 28px;
-    box-shadow: 0 10px 32px rgba(0,0,0,0.27);
-    transition: background 0.3s, border-color 0.3s;
-  }
-
-  /* ── Progress ── */
-  .step-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  .step-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-  }
-  .step-count { font-size: 11px; color: var(--dim); font-family: 'DM Mono', monospace; }
-  .progress-bar {
-    width: 100%;
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 24px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 2px;
-    transition: width 0.5s cubic-bezier(.4,0,.2,1);
-  }
-
-  /* ── Question header ── */
-  .q-emoji { font-size: 34px; margin-bottom: 6px; display: block; }
-  .q-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    margin-bottom: 6px;
-  }
-  .q-text {
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--cream);
-    line-height: 1.35;
-  }
-
-  /* ── Options ── */
-  .option {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px 20px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--opt-bg);
-    cursor: pointer;
-    transition: background 0.18s, border-color 0.18s, transform 0.12s;
-    margin-bottom: 8px;
-    width: 100%;
-    text-align: left;
-    user-select: none;
-  }
-  .option:hover {
-    background: var(--opt-hvr);
-    border-color: var(--accent);
-    transform: translateX(2px);
-  }
-  .option.selected {
-    background: var(--opt-sel);
-    border: 2px solid var(--gold);
-  }
-  .option-dot { font-size: 14px; color: var(--dim); flex-shrink: 0; transition: color 0.18s; }
-  .option.selected .option-dot { color: var(--gold); }
-  .option-label { font-size: 14px; color: var(--text); font-weight: 500; line-height: 1.4; }
-
-  .back-btn {
-    background: none;
-    border: none;
-    color: var(--dim);
-    font-size: 13px;
-    font-family: 'Noto Serif TC', serif;
-    cursor: pointer;
-    margin-top: 12px;
-    padding: 6px 0;
-    display: block;
-  }
-  .back-btn:hover { color: var(--accent); }
-
-  /* ── Loading ── */
-  .loading-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 100px;
-    gap: 0;
-    animation: fadeUp 0.3s ease both;
-  }
-  .loading-icon {
-    width: 90px; height: 90px;
-    border-radius: 50%;
-    background: var(--card);
-    border: 1px solid var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 42px;
-    box-shadow: 0 6px 20px rgba(79,163,224,0.33);
-    animation: pulse 1.6s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { box-shadow: 0 6px 20px rgba(79,163,224,0.33); }
-    50%      { box-shadow: 0 6px 36px rgba(79,163,224,0.6); }
-  }
-  .loading-bar-wrap {
-    width: 200px; height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-top: 20px;
-  }
-  .loading-bar-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 2px;
-    animation: loadAnim 1.4s ease-in-out infinite;
-  }
-  @keyframes loadAnim {
-    0%   { width: 0%;   margin-left: 0; }
-    50%  { width: 70%;  margin-left: 15%; }
-    100% { width: 0%;   margin-left: 100%; }
-  }
-  .loading-text { color: var(--dim); font-size: 14px; margin-top: 14px; }
-
-  /* ── Result ── */
-  .result-badge {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--green);
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
-  }
-  .result-title {
-    font-size: 20px;
-    font-weight: 900;
-    color: var(--cream);
-    line-height: 1.4;
-    margin-bottom: 12px;
-  }
-  .tag-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
-  .tag {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 5px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--accent);
-    background: var(--opt-hvr);
-    color: var(--accent2);
-    font-family: 'DM Mono', monospace;
-  }
-  .tag.stage {
-    border-color: var(--border);
-    background: var(--opt-bg);
-    color: var(--dim);
-    font-weight: 400;
-  }
-  .result-reason { font-size: 12px; color: var(--dim); line-height: 1.6; }
-
-  .divider { height: 1px; background: var(--border); margin: 20px 0; }
-
-  .section-label {
-    font-size: 12px;
-    color: var(--dim);
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.06em;
-    margin-bottom: 8px;
-  }
-
-  /* Risk bar */
-  .risk-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .risk-value {
-    font-size: 17px;
-    font-weight: 700;
-    font-family: 'DM Mono', monospace;
-  }
-  .risk-segs { display: flex; gap: 4px; justify-content: center; }
-  .risk-seg {
-    width: 32px; height: 12px;
-    border-radius: 3px;
-    transition: background 0.3s;
-  }
-
-  /* Action cards */
-  .action-card {
-    background: var(--opt-bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 8px;
-    transition: background 0.3s, border-color 0.3s;
-  }
-  .action-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-  .action-num {
-    background: var(--accent);
-    color: var(--bg);
-    font-size: 10px;
-    font-weight: 900;
-    font-family: 'DM Mono', monospace;
-    padding: 2px 8px;
-    border-radius: 5px;
-    flex-shrink: 0;
-  }
-  .action-title { font-size: 13px; font-weight: 600; color: var(--text); }
-  .action-detail { font-size: 12px; color: var(--dim); margin-left: 36px; line-height: 1.5; }
-
-  /* Encourage box */
-  .encourage-box {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    background: var(--enc-bg);
-    border: 1px solid rgba(201,168,76,0.27);
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin: 20px 0;
-  }
-  .encourage-icon { font-size: 16px; flex-shrink: 0; }
-  .encourage-text { font-size: 13px; color: var(--gold-l); line-height: 1.6; }
-
-  /* CTA button */
-  .cta-btn {
-    display: block;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 18px 0;
-    background: var(--accent);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    font-family: 'Noto Serif TC', serif;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    box-shadow: 0 8px 24px rgba(79,163,224,0.35);
-    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
-  }
-  .cta-btn:hover {
-    opacity: 0.92;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(79,163,224,0.45);
-  }
-  .retry-btn {
-    background: none;
-    border: none;
-    color: var(--dim);
-    font-size: 13px;
-    font-family: 'Noto Serif TC', serif;
-    cursor: pointer;
-    margin-top: 8px;
-    padding: 6px 0;
-    display: block;
-    width: 100%;
-    text-align: center;
-  }
-  .retry-btn:hover { color: var(--accent); }
-
-  /* Responsive */
-  @media (max-width: 560px) {
-    .card-top, .card-body { padding: 22px 18px; }
-    .q-text { font-size: 18px; }
-    .result-title { font-size: 17px; }
-    .topbar { padding: 10px 16px; }
-  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="logo">🧭 求職導航儀</div>
-  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀️ 白天</button>
-</header>
-
-<main id="main"></main>
-
-<script>
-const TARGET_URL = "https://readdy.cc/preview/c0d8649c-b49c-415a-9346-9694f158f6f6/7217984";
-
-const QUESTIONS = [
-  { id:"q1", emoji:"⚓", question:"您目前的求職狀態？",
-    options:["新鮮人（應屆畢業）","在職中，觀望新機會","考慮離職中","積極投遞履歷中","準備面試中","已拿到 Offer"] },
-  { id:"q2", emoji:"🌊", question:"目前最感到困擾的是？",
-    options:["薪資行情不明","履歷投遞沒回音","職涯方向迷茫","面試表現不穩","不清楚離職權益"] },
-  { id:"q3", emoji:"🗺️", question:"您的工作年資？",
-    options:["0年","1–3年","3–5年","5–10年","10年以上"] },
-];
-
-const STAGE_LABELS = {
-  Stage1:["穩定觀望期","🔭"], Stage2:["轉職思考期","🤔"],
-  Stage3:["求職準備期","📝"], Stage4:["投遞履歷期","📨"], Stage5:["面試準備期","🎯"],
-};
-
-let answers = {};
-let isDark = true;
-
-function toggleTheme() {
-  isDark = !isDark;
-  document.body.classList.toggle('light', !isDark);
-  document.getElementById('themeBtn').textContent = isDark ? '☀️ 白天' : '🌙 暗夜';
-}
-
-function classify(ans) {
-  const q1 = ans.q1 || '', q2 = ans.q2 || '', q3 = ans.q3 || '';
-  let res = {
-    stage:"Stage1", risk:3, user_type:"7. 追求卓越者",
-    title:"你的眼界，就是你的天花板。",
-    reason:"你目前狀態穩定，對進步的渴望讓你持續關注市場趨勢。",
-    actions:["擴大職場專業人脈","學習高階技能","追蹤高薪職缺要求"],
-    details:["建立個人品牌的好時機。","觀察市場對高階人才的技能定義。","確保你隨時具備躍遷的能力。"],
-    encourage:"唯有航向深水區，才能遇見壯闊的風景。", cta:"查看市場高薪行情"
-  };
-  if (q1.includes("新鮮人") || q3 === "0年") {
-    Object.assign(res, {stage:"Stage3",risk:4,user_type:"6. 剛畢業生",
-      title:"勇敢的新鮮人，歡迎來到大海！",
-      reason:"第一份工作讓人緊張，現在最需要把履歷變得更有說服力。",
-      actions:["建立新鮮人專屬履歷","盤點校園專案與實習","研究應屆生起薪標準"],
-      details:["強調學習潛力，而非工作年資。","將技能轉化為職場語言。","知道行情才能談薪更有底氣。"],
-      encourage:"第一波浪花總是雀躍，讓大海指引你方向。", cta:"新鮮人履歷指南"});
-  } else if (q1.includes("面試") || q2.includes("面試表現不穩")) {
-    Object.assign(res, {stage:"Stage5",risk:8,user_type:"3. 準備面試者",
-      title:"差一步就能進門，穩住！",
-      reason:"你已站在門口，這時的焦慮是正常的，穩住心態最重要。",
-      actions:["準備 STAR 原則應答架構","深度研究面試公司痛點","模擬面試 50 題必考題"],
-      details:["讓回答有邏輯且具備說服力。","顯得比其他候選人更懂公司。","減少緊張感，讓表現更自然。"],
-      encourage:"穩住你的舵，海風會帶你前往正確的港口。", cta:"面試必備題庫"});
-  } else if (q1.includes("投遞") || q2.includes("履歷投遞沒回音")) {
-    Object.assign(res, {stage:"Stage4",risk:7,user_type:"2. 投履歷者",
-      title:"你的努力值得被看見。",
-      reason:"行動力很強，但如果回覆率低，可能是履歷關鍵字未對齊市場。",
-      actions:["找出 JD 中的核心關鍵字","將經歷改為數據化描述","檢查履歷排版易讀性"],
-      details:["確保履歷通過系統第一關篩選。","具體數據是面試官最看重的。","好排版能提高 20% 閱讀完成率。"],
-      encourage:"細沙需要篩選，才能成就最美的沙灘。", cta:"履歷診斷優化"});
-  } else if (q2.includes("薪資行情不明")) {
-    Object.assign(res, {stage:"Stage2",risk:6,user_type:"4. 薪資焦慮者",
-      title:"你的價值，值得被更好對待。",
-      reason:"感覺付出跟收穫不成正比？讓數據告訴你行情在哪裡。",
-      actions:["查詢同職位平均薪資","整理個人年度戰績清單","評估談判籌碼"],
-      details:["知道行情，才不會被低估。","這是爭取高薪最硬的武器。","大海很大，總有更適合你的機會。"],
-      encourage:"深海的珍珠，值得被看見它的光芒。", cta:"薪資行情查詢"});
-  } else if (q1.includes("考慮離職") || q2.includes("不清楚離職權益")) {
-    Object.assign(res, {stage:"Stage2",risk:9,user_type:"1. 想離職者",
-      title:"孩子，辛苦了。累了就先靠岸吧。",
-      reason:"當離職念頭頻繁出現，代表現狀已無法負荷，先規劃安全逃生路線。",
-      actions:["盤點特休與離職金權益","私下啟動履歷更新","設定最後離職期限"],
-      details:["別讓法律權益睡著了。","離開前先找好下一個港口。","給自己明確目標，減少焦慮。"],
-      encourage:"海浪在退潮時，是為了下一次的翻湧。", cta:"離職權益清單"});
-  } else if (q2.includes("職涯方向迷茫")) {
-    Object.assign(res, {stage:"Stage2",risk:5,user_type:"5. 方向迷茫者",
-      title:"迷霧中的你，需要一座燈塔。",
-      reason:"你想改變但不知往哪走，沒關係，大海很大，先找到燈塔。",
-      actions:["進行職業性格與優勢測驗","列出 3 個感興趣的異業職缺","尋求前輩職涯諮詢"],
-      details:["了解適合什麼，比盲目投遞重要。","了解技能轉換的可行性。","前輩一句話能讓你少走三年彎路。"],
-      encourage:"迷霧中的燈塔，會在休息後變得清晰。", cta:"探索職業性格"});
-  }
-  return res;
-}
-
-function showQuestion(idx) {
-  const q = QUESTIONS[idx];
-  const total = QUESTIONS.length;
-  const progress = ((idx + 1) / total * 100).toFixed(1);
-
-  const optionsHTML = q.options.map(opt => `
-    <button class="option" onclick="selectOption(this, '${q.id}', '${opt.replace(/'/g,"\\'")}', ${idx})">
-      <span class="option-dot">○</span>
-      <span class="option-label">${opt}</span>
-    </button>
-  `).join('');
-
-  const backHTML = idx > 0
-    ? `<button class="back-btn" onclick="showQuestion(${idx-1})">← 上一題</button>`
-    : '';
-
-  document.getElementById('main').innerHTML = `
-    <div class="card-shell">
-      <div class="card-top">
-        <div class="step-row">
-          <span class="step-label">STEP ${idx+1} OF ${total}</span>
-          <span class="step-count">${idx+1}/${total}</span>
-        </div>
-        <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
-        <span class="q-emoji">${q.emoji}</span>
-        <div class="q-num">QUESTION ${idx+1}</div>
-        <div class="q-text">${q.question}</div>
-      </div>
-      <div class="card-body">
-        ${optionsHTML}
-        ${backHTML}
+  <header>
+    <div class="brand-group">
+      <span style="font-size: 18px;">🏝️</span>
+      <div>
+        <div style="font-weight: 900; font-size: 14px;">浮島深聊</div>
+        <div style="font-size: 8px; font-family: 'DM Mono'; opacity: 0.5;">fudao-talk.lab</div>
       </div>
     </div>
-  `;
-}
+    <a href="https://readdy.cc/preview/c0d8649c-b49c-415a-9346-9694f158f6f6/7217984/about" class="about-link" target="_blank">關於團隊</a>
+  </header>
 
-function selectOption(btn, qId, value, idx) {
-  // highlight selection
-  btn.closest('.card-body').querySelectorAll('.option').forEach(o => {
-    o.classList.remove('selected');
-    o.querySelector('.option-dot').textContent = '○';
-  });
-  btn.classList.add('selected');
-  btn.querySelector('.option-dot').textContent = '●';
-  answers[qId] = value;
+  <div class="trust-anchor">
+    🛡️ 捷啟智慧科技 JC Tech 官方開發｜台南在地職涯研發團隊
+  </div>
 
-  setTimeout(() => {
-    if (idx < QUESTIONS.length - 1) {
-      showQuestion(idx + 1);
-    } else {
-      showLoading();
+  <main id="app">
+    </main>
+
+  <div class="privacy-sticky">
+    🔒 本診斷全程匿名，不蒐集個資、不記錄 IP，請放心測試。
+  </div>
+
+  <footer>
+    <div style="font-weight: 700;">浮島深聊 · fudao-talk</div>
+    <div style="margin-top: 4px;">技術支持：捷啟智慧科技 JC Tech</div>
+    <div style="margin-top: 10px; opacity: 0.5; font-size: 9px;">© 2026 JC Tech. All Rights Reserved.</div>
+  </footer>
+
+  <script>
+    const TARGET_URL = "https://readdy.cc/preview/c0d8649c-b49c-415a-9346-9694f158f6f6/7217984";
+    const questions = [
+      { emoji: "⚓", q: "您目前的求職狀態？", opts: ["新鮮人（應屆畢業）", "在職中，觀望新機會", "考慮離職中", "積極投遞履歷中", "準備面試中", "已拿到 Offer"] },
+      { emoji: "🌊", q: "目前最感到困擾的是？", opts: ["薪資行情不明", "履歷投遞沒回音", "職涯方向迷茫", "面試表現不穩", "不清楚離職權益"] },
+      { emoji: "🗺️", q: "您的工作年資？", opts: ["0年", "1–3年", "3–5年", "5–10年", "10年以上"] }
+    ];
+
+    let currentStep = 0;
+
+    function render() {
+      const q = questions[currentStep];
+      document.getElementById('app').innerHTML = `
+        <div class="card-shell">
+          <div class="card-top">
+            <div style="font-size: 38px; margin-bottom: 10px;">${q.emoji}</div>
+            <div style="font-size: 20px; font-weight: 900; line-height: 1.4;">${q.q}</div>
+          </div>
+          <div class="card-body">
+            ${q.opts.map(o => `<div class="opt-btn" onclick="next()">${o}<span>→</span></div>`).join('')}
+            <div style="margin-top: 15px; font-size: 10px; opacity: 0.3; text-align: center; letter-spacing: 2px;">STEP 0${currentStep+1} / 03</div>
+          </div>
+        </div>
+      `;
     }
-  }, 220);
-}
 
-function showLoading() {
-  document.getElementById('main').innerHTML = `
-    <div class="loading-wrap">
-      <div class="loading-icon">🧭</div>
-      <div class="loading-bar-wrap"><div class="loading-bar-fill"></div></div>
-      <div class="loading-text">正在分析最佳路徑…</div>
-    </div>
-  `;
-  setTimeout(() => showResult(classify(answers)), 1400);
-}
+    function next() {
+      if (currentStep < questions.length - 1) {
+        currentStep++; render();
+      } else {
+        document.getElementById('app').innerHTML = `<div style="padding: 100px 0; text-align: center;"><div style="width: 30px; height: 30px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div><p style="margin-top: 20px; opacity: 0.6; font-size: 13px;">正在分析數據...</p></div>`;
+        setTimeout(showResult, 1200);
+      }
+    }
 
-function showResult(res) {
-  const [stageLabel, stageIcon] = STAGE_LABELS[res.stage] || ["未知","❓"];
-  const risk = res.risk;
-  let riskColor = risk <= 4 ? 'var(--green)' : risk <= 7 ? 'var(--accent)' : 'var(--red)';
+    function showResult() {
+      const risk = 6;
+      let segs = "";
+      for(let i=1; i<=10; i++) {
+        const color = i <= 4 ? "#4cc98a" : (i <= 7 ? "#4fa3e0" : "#e05c5c");
+        segs += `<div style="height: 8px; width: 30px; border-radius: 2px; background:${i<=risk ? color : 'rgba(255,255,255,0.05)'}; box-shadow:${i<=risk ? '0 0 8px '+color+'44' : 'none'}"></div>`;
+      }
 
-  const segsHTML = Array.from({length:10}, (_,i) =>
-    `<div class="risk-seg" style="background:${i < risk ? riskColor : 'var(--seg-off)'}"></div>`
-  ).join('');
-
-  const actionsHTML = res.actions.map((act, i) => `
-    <div class="action-card">
-      <div class="action-header">
-        <span class="action-num">0${i+1}</span>
-        <span class="action-title">${act}</span>
-      </div>
-      <div class="action-detail">${res.details[i]}</div>
-    </div>
-  `).join('');
-
-  document.getElementById('main').innerHTML = `
-    <div class="card-shell">
-      <div class="card-top">
-        <div style="font-size:44px;margin-bottom:6px">✅</div>
-        <div class="result-badge">✦ 診斷完成 ✦</div>
-        <div class="result-title">${res.title}</div>
-        <div class="tag-row">
-          <span class="tag">${res.user_type}</span>
-          <span class="tag stage">${stageIcon} ${stageLabel}</span>
+      document.getElementById('app').innerHTML = `
+        <div class="card-shell">
+          <div class="card-top">
+            <div style="font-size: 40px;">🎯</div>
+            <div style="color:var(--accent); font-size:10px; font-weight:bold; letter-spacing:3px; margin-top:10px;">✦ 診斷完成 ✦</div>
+            <div style="font-size: 28px; font-weight: 900; margin: 10px 0;">方向迷茫者</div>
+            <p style="font-size: 14px; opacity: 0.7; line-height: 1.6;">診斷顯示，您目前的狀態正處於關鍵轉折點。建議透過「浮島測驗」進一步拆解核心優勢。</p>
+          </div>
+          <div class="card-body">
+            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:10px; opacity:0.6;">
+              <span>⚡ 緊迫指數評估</span><span style="color:var(--accent); font-weight:bold;">${risk} / 10</span>
+            </div>
+            <div style="display:flex; gap:4px; justify-content:center; margin-bottom:20px;">${segs}</div>
+            
+            <a href="${TARGET_URL}" target="_blank" style="display: block; background: var(--accent); color: white; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; font-size: 17px; box-shadow: 0 8px 20px rgba(79,163,224,0.3);">進入正式測驗 →</a>
+            <button onclick="location.reload()" style="background: none; border: none; color: #7aa8cc; font-size: 12px; margin-top: 20px; width: 100%; cursor: pointer; text-decoration: underline;">↺ 重新診斷</button>
+          </div>
         </div>
-        <div class="result-reason">${res.reason}</div>
-      </div>
-      <div class="card-body">
-        <div class="risk-header">
-          <span class="section-label">⚡ 緊迫指數</span>
-          <span class="risk-value" style="color:${riskColor}">${risk} / 10</span>
-        </div>
-        <div class="risk-segs">${segsHTML}</div>
-        <div class="divider"></div>
-        <div class="section-label">🚀 建議行動</div>
-        ${actionsHTML}
-        <div class="divider"></div>
-        <div class="encourage-box">
-          <span class="encourage-icon">🌊</span>
-          <span class="encourage-text">${res.encourage}</span>
-        </div>
-        <a class="cta-btn" href="${TARGET_URL}" target="_blank" rel="noopener">
-          開啟 ${res.cta} →
-        </a>
-        <button class="retry-btn" onclick="restart()">↺ 重新測試</button>
-      </div>
-    </div>
-  `;
-}
+      `;
+    }
 
-function restart() {
-  answers = {};
-  showQuestion(0);
-}
-
-// Init
-showQuestion(0);
-</script>
+    render();
+  </script>
 </body>
 </html>
