@@ -7,50 +7,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a1628; --card: #0e2240; --card2: #112544; --accent: #4fa3e0; --text: #d4e8f5; --border: #1a3a5c;
+    --bg: #0a1628; --card: #0e2240; --card2: #112544; --accent: #4fa3e0; --text: #d4e8f5; --dim: #7aa8cc; --border: #1a3a5c;
   }
   body { 
     background-color: var(--bg); color: var(--text); font-family: 'Noto Serif TC', serif; 
     margin: 0; display: flex; flex-direction: column; min-height: 100vh;
     background-image: radial-gradient(circle at 50% 0%, rgba(79, 163, 224, 0.05) 0%, transparent 70%);
   }
-  
-  /* Top Bar */
-  header {
-    background: var(--card); border-bottom: 1px solid var(--border);
-    padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
-    position: sticky; top: 0; z-index: 100;
-  }
+  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
   .brand-group { display: flex; align-items: center; gap: 8px; }
-  .about-link { font-size: 11px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; transition: 0.3s; }
-  .about-link:hover { background: rgba(79, 163, 224, 0.1); }
-
-  /* Trust Anchor */
-  .trust-anchor {
-    background: rgba(79, 163, 224, 0.1); border-bottom: 1px solid rgba(79, 163, 224, 0.2);
-    padding: 8px 0; text-align: center; font-size: 11px; color: var(--accent); letter-spacing: 1px;
-  }
-
+  .about-link { font-size: 11px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; }
+  .trust-anchor { background: rgba(79, 163, 224, 0.1); border-bottom: 1px solid rgba(79, 163, 224, 0.2); padding: 8px 0; text-align: center; font-size: 11px; color: var(--accent); letter-spacing: 1px; }
   main { width: 100%; max-width: 500px; margin: 0 auto; padding: 20px 15px; flex: 1; }
-  
-  /* 雙層卡片視覺 */
   .card-shell { border-radius: 16px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.4); animation: fadeIn 0.5s; }
   .card-top { background: var(--card); padding: 25px 20px; text-align: center; border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; }
   .card-body { background: var(--card2); padding: 20px; border: 1px solid var(--border); border-radius: 0 0 16px 16px; }
-
-  .opt-btn { 
-    background: #0d1e38; border: 1px solid var(--border); padding: 15px; border-radius: 10px; 
-    margin-bottom: 8px; cursor: pointer; display: flex; justify-content: space-between; font-size: 15px; transition: 0.2s;
-  }
+  .opt-btn { background: #0d1e38; border: 1px solid var(--border); padding: 15px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; display: flex; justify-content: space-between; font-size: 15px; transition: 0.2s; }
   .opt-btn:hover { border-color: var(--accent); background: #112848; transform: translateX(5px); }
-
-  /* 隱私聲明：強制出現在第一視覺區 */
-  .privacy-sticky {
-    margin: 15px auto; text-align: center; font-size: 11px; opacity: 0.5; line-height: 1.6; max-width: 400px;
-  }
-
+  .privacy-sticky { margin: 15px auto; text-align: center; font-size: 11px; opacity: 0.5; line-height: 1.6; max-width: 400px; }
   footer { margin-top: 40px; padding: 30px 20px; text-align: center; border-top: 1px solid var(--border); opacity: 0.6; font-size: 11px; }
-
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
@@ -76,7 +51,7 @@
     </main>
 
   <div class="privacy-sticky">
-    🔒 本診斷全程匿名，不蒐集個資、不記錄 IP，請放心測試。
+    🔒 本診斷全程匿名，無需註冊、不蒐集個資，請放心測試。
   </div>
 
   <footer>
@@ -88,12 +63,13 @@
   <script>
     const TARGET_URL = "https://readdy.cc/preview/c0d8649c-b49c-415a-9346-9694f158f6f6/7217984";
     const questions = [
-      { emoji: "⚓", q: "您目前的求職狀態？", opts: ["新鮮人（應屆畢業）", "在職中，觀望新機會", "考慮離職中", "積極投遞履歷中", "準備面試中", "已拿到 Offer"] },
-      { emoji: "🌊", q: "目前最感到困擾的是？", opts: ["薪資行情不明", "履歷投遞沒回音", "職涯方向迷茫", "面試表現不穩", "不清楚離職權益"] },
-      { emoji: "🗺️", q: "您的工作年資？", opts: ["0年", "1–3年", "3–5年", "5–10年", "10年以上"] }
+      { q: "您目前的求職狀態？", opts: ["新鮮人（應屆畢業）", "在職中，觀望新機會", "考慮離職中", "積極投遞履歷中", "準備面試中", "已拿到 Offer"], emoji: "⚓" },
+      { q: "目前最感到困擾的是？", opts: ["薪資行情不明", "履歷投遞沒回音", "職涯方向迷茫", "面試表現不穩", "不清楚離職權益"], emoji: "🌊" },
+      { q: "您的工作年資？", opts: ["0年", "1–3年", "3–5年", "5–10年", "10年以上"], emoji: "🗺️" }
     ];
 
     let currentStep = 0;
+    let answers = [];
 
     function render() {
       const q = questions[currentStep];
@@ -104,24 +80,50 @@
             <div style="font-size: 20px; font-weight: 900; line-height: 1.4;">${q.q}</div>
           </div>
           <div class="card-body">
-            ${q.opts.map(o => `<div class="opt-btn" onclick="next()">${o}<span>→</span></div>`).join('')}
-            <div style="margin-top: 15px; font-size: 10px; opacity: 0.3; text-align: center; letter-spacing: 2px;">STEP 0${currentStep+1} / 03</div>
+            ${q.opts.map((o, i) => `<div class="opt-btn" onclick="handleSelect(${i})">${o}<span>→</span></div>`).join('')}
+            <div style="margin-top: 15px; font-size: 10px; opacity: 0.3; text-align: center;">STEP 0${currentStep+1} / 03</div>
           </div>
         </div>
       `;
     }
 
-    function next() {
+    function handleSelect(index) {
+      answers.push(index);
       if (currentStep < questions.length - 1) {
         currentStep++; render();
       } else {
-        document.getElementById('app').innerHTML = `<div style="padding: 100px 0; text-align: center;"><div style="width: 30px; height: 30px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div><p style="margin-top: 20px; opacity: 0.6; font-size: 13px;">正在分析數據...</p></div>`;
-        setTimeout(showResult, 1200);
+        showLoading();
       }
     }
 
+    function showLoading() {
+      document.getElementById('app').innerHTML = `<div style="padding: 100px 0; text-align: center;"><div style="width: 30px; height: 30px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div><p style="margin-top: 20px; opacity: 0.6; font-size: 13px;">正在分析您的職涯導航數據...</p></div>`;
+      setTimeout(showResult, 1200);
+    }
+
+    // 核心邏輯搬遷：根據回答動態生成結果
     function showResult() {
-      const risk = 6;
+      const [q1, q2, q3] = answers;
+      let title = "職涯探索者";
+      let risk = 5;
+      let reason = "您正處於探索階段，適合多方嘗試。";
+      let encourage = "每一段路都是成長的養分。";
+
+      // 簡易邏輯分支 (模擬原本 python 版的分類)
+      if (q1 === 2 || q2 === 2) { 
+        title = "方向迷茫者"; risk = 8; 
+        reason = "核心焦慮來自於定位模糊，建議先釐清優勢。";
+        encourage = "大海雖然遼闊，但總有一座島嶼屬於你。";
+      } else if (q1 === 0) {
+        title = "職場新鮮人"; risk = 6;
+        reason = "剛踏入航道，需要建立精準的履歷地圖。";
+        encourage = "勇敢出發，風會帶你去想去的地方。";
+      } else if (q1 === 3 || q2 === 1) {
+        title = "積極求職者"; risk = 7;
+        reason = "投遞頻率高但轉化率低，需優化面試策略。";
+        encourage = "再堅持一下，下一個浪潮就是機會。";
+      }
+
       let segs = "";
       for(let i=1; i<=10; i++) {
         const color = i <= 4 ? "#4cc98a" : (i <= 7 ? "#4fa3e0" : "#e05c5c");
@@ -133,8 +135,8 @@
           <div class="card-top">
             <div style="font-size: 40px;">🎯</div>
             <div style="color:var(--accent); font-size:10px; font-weight:bold; letter-spacing:3px; margin-top:10px;">✦ 診斷完成 ✦</div>
-            <div style="font-size: 28px; font-weight: 900; margin: 10px 0;">方向迷茫者</div>
-            <p style="font-size: 14px; opacity: 0.7; line-height: 1.6;">診斷顯示，您目前的狀態正處於關鍵轉折點。建議透過「浮島測驗」進一步拆解核心優勢。</p>
+            <div style="font-size: 28px; font-weight: 900; margin: 5px 0;">${title}</div>
+            <p style="font-size: 14px; opacity: 0.7; line-height: 1.6;">${reason}</p>
           </div>
           <div class="card-body">
             <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:10px; opacity:0.6;">
@@ -142,8 +144,17 @@
             </div>
             <div style="display:flex; gap:4px; justify-content:center; margin-bottom:20px;">${segs}</div>
             
-            <a href="${TARGET_URL}" target="_blank" style="display: block; background: var(--accent); color: white; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; font-size: 17px; box-shadow: 0 8px 20px rgba(79,163,224,0.3);">進入正式測驗 →</a>
-            <button onclick="location.reload()" style="background: none; border: none; color: #7aa8cc; font-size: 12px; margin-top: 20px; width: 100%; cursor: pointer; text-decoration: underline;">↺ 重新診斷</button>
+            <div style="background: rgba(255,255,255,0.03); padding: 18px; border-radius: 12px; margin-bottom:20px; text-align: left; border-left: 3px solid var(--accent);">
+                <div style="font-size:13px; opacity:0.8; font-style:italic;">"${encourage}"</div>
+            </div>
+
+            <a href="${TARGET_URL}" target="_blank" style="display: block; background: var(--accent); color: white; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; font-size: 17px; box-shadow: 0 8px 20px rgba(79,163,224,0.3);">查看完整職涯報告（官方平台） →</a>
+            
+            <div style="font-size: 10px; opacity: 0.4; text-align: center; margin-top: 15px;">
+              全程匿名、無需註冊、不蒐集個人資料
+            </div>
+
+            <button onclick="location.reload()" style="background: none; border: none; color: #7aa8cc; font-size: 12px; margin-top: 25px; width: 100%; cursor: pointer; text-decoration: underline;">↺ 重新診斷</button>
           </div>
         </div>
       `;
