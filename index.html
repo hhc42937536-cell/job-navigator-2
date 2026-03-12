@@ -18,34 +18,24 @@
   }
   header { background: var(--card); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
   .brand-group { display: flex; align-items: center; gap: 8px; }
-  .about-link { font-size: 11px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; transition: 0.3s; }
-  .about-link:hover { background: rgba(79, 163, 224, 0.1); }
-
+  .about-link { font-size: 11px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; }
   .trust-anchor { background: rgba(79, 163, 224, 0.1); border-bottom: 1px solid rgba(79, 163, 224, 0.2); padding: 8px 0; text-align: center; font-size: 11px; color: var(--accent); letter-spacing: 1px; }
-  
   main { width: 100%; max-width: 500px; margin: 0 auto; padding: 20px 15px; flex: 1; }
   .card-shell { border-radius: 16px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.4); animation: fadeIn 0.5s; }
   .card-top { background: var(--card); padding: 25px 20px; text-align: center; border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; }
   .card-body { background: var(--card2); padding: 20px; border: 1px solid var(--border); border-radius: 0 0 16px 16px; }
-  
   .opt-btn { background: #0d1e38; border: 1px solid var(--border); padding: 15px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; display: flex; justify-content: space-between; font-size: 15px; transition: 0.2s; }
   .opt-btn:hover { border-color: var(--accent); background: #112848; transform: translateX(5px); }
-  
   .cta-btn { display: block; background: var(--accent); color: white; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; font-size: 17px; box-shadow: 0 8px 20px rgba(79,163,224,0.3); transition: 0.3s; }
   .cta-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
-
-  /* 分享按鈕 */
   .share-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 15px; }
-  .share-item { border: 1px solid var(--border); padding: 10px 5px; border-radius: 8px; font-size: 10px; color: var(--dim); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; background: rgba(255,255,255,0.02); text-decoration: none; }
-  .share-item:hover { background: rgba(255,255,255,0.05); }
+  .share-item { border: 1px solid var(--border); padding: 10px 5px; border-radius: 8px; font-size: 10px; color: var(--dim); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; background: rgba(255,255,255,0.02); text-decoration: none; }
   .icon-line { color: var(--line); font-weight: bold; }
   .icon-threads { color: var(--threads); font-weight: bold; }
   .icon-fb { color: var(--fb); font-weight: bold; }
   .icon-ig { background: var(--ig-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; }
-
   .privacy-sticky { margin: 15px auto; text-align: center; font-size: 10px; opacity: 0.4; line-height: 1.6; padding: 0 20px; }
   footer { margin-top: 40px; padding: 30px 20px; text-align: center; border-top: 1px solid var(--border); opacity: 0.6; font-size: 11px; }
-  
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
@@ -75,7 +65,7 @@
 
   <footer>
     <div style="font-weight: 700;">浮島深聊 · fudao-talk</div>
-    <div style="margin-top: 4px;">技術支持：捷啟智慧科技 JC Tech</div>
+    <div style="margin-top: 4px;">目前為冷啟動測試版，結果僅供參考，未來將持續優化</div>
     <div style="margin-top: 10px; opacity: 0.5; font-size: 9px;">© 2026 JC Tech. All Rights Reserved.</div>
   </footer>
 
@@ -116,29 +106,23 @@
     }
 
     function showLoading() {
-      document.getElementById('app').innerHTML = `
-        <div style="padding: 100px 0; text-align: center;">
-            <div style="width: 30px; height: 30px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
-            <p style="margin-top: 20px; opacity: 0.6; font-size: 13px;">正在由 JC Tech 引擎分析您的職涯數據...</p>
-        </div>`;
+      document.getElementById('app').innerHTML = `<div style="padding: 100px 0; text-align: center;"><div style="width: 30px; height: 30px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div><p style="margin-top: 20px; opacity: 0.6; font-size: 13px;">正在由 JC Tech 引擎分析您的職涯數據...</p></div>`;
       setTimeout(showResult, 1200);
     }
 
     function showResult() {
       const [q1, q2, q3] = answers;
-      let res = { title: "職涯探索者", risk: 5, reason: "您目前處於穩健階段，適合優化現有技能。", encourage: "平靜的海面練不出精悍的水手。" };
+      let res = { title: "職涯探索者", risk: 5, reason: "您目前處於穩健階段，建議優化現有技能組合。", encourage: "平靜的海面練不出精悍的水手。" };
 
-      // 動態邏輯判斷
-      if (q1 === 2 || q2 === 2) { 
-        res = { title: "方向迷茫者", risk: 8, reason: "核心焦慮來自於定位模糊，建議透過深度測驗釐清市場優勢。", encourage: "大海雖然遼闊，但總有一座島嶼屬於你。" };
-      } else if (q1 === 0) {
-        res = { title: "職場新鮮人", risk: 6, reason: "剛踏入航道，需要建立精準的履歷地圖與市場認知。", encourage: "勇敢出發，風會帶你去想去的地方。" };
-      } else if (q1 === 3 || q2 === 1) {
-        res = { title: "積極轉職者", risk: 7, reason: "投遞頻率高但轉化率低，目前需要的是優化個人品牌敘事。", encourage: "再堅持一下，下一個浪潮就是機會。" };
-      } else if (q1 === 4 || q2 === 3) {
-        res = { title: "面試攻堅者", risk: 9, reason: "實力已獲認可，目前的關鍵在於臨場應變與談薪策略。", encourage: "最後一哩路，穩住就能抵達目的地。" };
-      } else if (q3 >= 3) {
-        res = { title: "資深領航員", risk: 4, reason: "具備實戰經驗，目前應專注於高階獵才或管理層次的躍升。", encourage: "您的經驗就是最強大的羅盤。" };
+      // 根據 Q2 困擾點進行動態分類
+      if (q2 === 0) { // 薪資行情
+        res = { title: "市場價值評估中", risk: 6, reason: "您對目前的薪資定位感到模糊，這通常源於市場資訊不對稱。", encourage: "了解價值，是議價的第一步。" };
+      } else if (q2 === 1) { // 履歷沒回音
+        res = { title: "履歷撞牆期", risk: 7, reason: "您的實力可能被埋沒在不精準的關鍵字中，建議重新優化履歷地圖。", encourage: "再好的珍珠也需要被放在對的光線下。" };
+      } else if (q2 === 2) { // 職涯迷茫
+        res = { title: "職涯定位迷茫者", risk: 8, reason: "核心焦慮來自於定位模糊，建議先透過深度測驗釐清優勢。", encourage: "大海雖然遼闊，但總有一座島嶼屬於你。" };
+      } else if (q2 === 3) { // 面試表現
+        res = { title: "面試實戰突破者", risk: 9, reason: "實力已獲門票，目前的瓶頸在於面試現場的壓力調控與應變。", encourage: "最後一哩路，穩住就能抵達目的地。" };
       }
 
       let segs = "";
@@ -147,9 +131,8 @@
         segs += `<div style="height: 8px; width: 30px; border-radius: 2px; background:${i<=res.risk ? color : 'rgba(255,255,255,0.05)'}; box-shadow:${i<=res.risk ? '0 0 8px '+color+'44' : 'none'}"></div>`;
       }
 
-      const shareText = `我在「職涯導航儀」測出的結果是：${res.title}（焦慮指數 ${res.risk}/10）！你也來試試看吧（全程匿名）：`;
-      const encodedText = encodeURIComponent(shareText);
       const encodedUrl = encodeURIComponent(window.location.href);
+      const encodedText = encodeURIComponent(`我在「職涯導航儀」測出的結果是：${res.title}（焦慮指數 ${res.risk}/10）！你也來試試看吧（全程匿名）：`);
 
       document.getElementById('app').innerHTML = `
         <div class="card-shell">
@@ -169,8 +152,10 @@
                 "${res.encourage}"
             </div>
 
-            <div style="font-size: 11px; color: var(--accent); text-align: center; margin-bottom: 8px; opacity: 0.8;">點擊開啟完整官方報告（安全、免註冊）</div>
-            <a href="${TARGET_URL}" target="_blank" class="cta-btn">查看完整報告 →</a>
+            <div style="font-size: 11px; color: var(--accent); text-align: center; margin-bottom: 8px; opacity: 0.8; line-height: 1.4;">
+                點擊進入浮島深聊官方平台<br>查看完整職涯報告（全程匿名、無需註冊）
+            </div>
+            <a href="${TARGET_URL}" target="_blank" class="cta-btn">開啟完整報告 →</a>
 
             <div style="text-align: center; margin-top: 25px;">
                 <div style="font-size: 11px; opacity: 0.4; margin-bottom: 10px;">—— 匿名分享診斷結果 ——</div>
@@ -182,8 +167,8 @@
                 </div>
             </div>
 
-            <div style="font-size: 9px; opacity: 0.3; text-align: center; margin-top: 15px;">
-              本測驗全程匿名、不記錄任何個人資料，僅供職涯參考。
+            <div style="font-size: 9px; opacity: 0.3; text-align: center; margin-top: 20px;">
+              本診斷為冷啟動測試版，結果僅供參考，未來將持續優化。
             </div>
 
             <button onclick="location.reload()" style="background: none; border: none; color: #7aa8cc; font-size: 11px; margin-top: 20px; width: 100%; cursor: pointer; text-decoration: underline;">↺ 重新診斷</button>
@@ -195,11 +180,9 @@
     function shareToIG(title, risk) {
       const text = `我在「職涯導航儀」測出的結果是：${title}（焦慮指數 ${risk}/10）！推薦大家也來測測看！ #浮島深聊 #職涯導航`;
       navigator.clipboard.writeText(text).then(() => {
-        alert("✨ 已複製診斷結果！\n\n請截圖此頁面，開啟 Instagram 限動並貼上文字分享。");
+        alert("✨ 已複製診斷結果文字！\n\n請截圖此頁面，開啟 Instagram 限動並貼上文字分享。");
         window.location.href = "instagram://camera"; 
-      }).catch(() => {
-        alert("請截圖此頁面分享至 Instagram 限動！");
-      });
+      }).catch(() => { alert("請截圖此頁面分享至 Instagram 限動！"); });
     }
 
     render();
