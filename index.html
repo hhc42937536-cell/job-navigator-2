@@ -7,185 +7,425 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a1628; --card: #0e2240; --card2: #112544; --accent: #4fa3e0; --text: #d4e8f5; --dim: #7aa8cc; --border: #1a3a5c;
+    --bg: #0a1628; --card: #0e2240; --card2: #112544; --accent: #4fa3e0;
+    --text: #d4e8f5; --dim: #7aa8cc; --border: #1a3a5c;
     --line: #06C755; --threads: #ffffff; --fb: #1877F2;
     --ig-grad: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    --green: #4cc98a; --red: #e05c5c;
   }
-  body { 
-    background-color: var(--bg); color: var(--text); font-family: 'Noto Serif TC', serif; 
+  * { box-sizing: border-box; }
+  body {
+    background-color: var(--bg); color: var(--text);
+    font-family: 'Noto Serif TC', serif;
     margin: 0; display: flex; flex-direction: column; min-height: 100vh;
-    background-image: radial-gradient(circle at 50% 0%, rgba(79, 163, 224, 0.05) 0%, transparent 70%);
+    background-image: radial-gradient(circle at 50% 0%, rgba(79,163,224,0.06) 0%, transparent 65%);
   }
-  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+  header {
+    background: var(--card); border-bottom: 1px solid var(--border);
+    padding: 12px 20px; display: flex; justify-content: space-between;
+    align-items: center; position: sticky; top: 0; z-index: 100;
+  }
   .brand-group { display: flex; align-items: center; gap: 8px; }
-  .about-link { font-size: 11px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 4px 10px; border-radius: 20px; }
-  .trust-anchor { background: rgba(79, 163, 224, 0.1); border-bottom: 1px solid rgba(79, 163, 224, 0.2); padding: 8px 0; text-align: center; font-size: 11px; color: var(--accent); letter-spacing: 1px; }
-  main { width: 100%; max-width: 500px; margin: 0 auto; padding: 20px 15px; flex: 1; }
-  .card-shell { border-radius: 16px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.4); animation: fadeIn 0.5s; }
-  .card-top { background: var(--card); padding: 25px 20px; text-align: center; border: 1px solid var(--border); border-bottom: none; border-radius: 16px 16px 0 0; }
-  .card-body { background: var(--card2); padding: 20px; border: 1px solid var(--border); border-radius: 0 0 16px 16px; }
-  .opt-btn { background: #0d1e38; border: 1px solid var(--border); padding: 15px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; display: flex; justify-content: space-between; font-size: 15px; transition: 0.2s; }
-  .opt-btn:hover { border-color: var(--accent); background: #112848; transform: translateX(5px); }
-  .cta-btn { display: block; background: var(--accent); color: white; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: bold; text-align: center; font-size: 17px; box-shadow: 0 8px 20px rgba(79,163,224,0.3); transition: 0.3s; }
-  .cta-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
-  .share-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 15px; }
-  .share-item { border: 1px solid var(--border); padding: 10px 5px; border-radius: 8px; font-size: 10px; color: var(--dim); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; background: rgba(255,255,255,0.02); text-decoration: none; }
-  .icon-line { color: var(--line); font-weight: bold; }
-  .icon-threads { color: var(--threads); font-weight: bold; }
-  .icon-fb { color: var(--fb); font-weight: bold; }
-  .icon-ig { background: var(--ig-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; }
-  .privacy-sticky { margin: 15px auto; text-align: center; font-size: 10px; opacity: 0.4; line-height: 1.6; padding: 0 20px; }
-  footer { margin-top: 40px; padding: 30px 20px; text-align: center; border-top: 1px solid var(--border); opacity: 0.6; font-size: 11px; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  .btn-reset {
+    font-size: 11px; color: var(--dim); cursor: pointer;
+    border: 1px solid var(--border); padding: 4px 10px; border-radius: 4px;
+    font-family: 'DM Mono', monospace; transition: 0.2s;
+  }
+  .btn-reset:hover { border-color: var(--accent); color: var(--accent); }
+  .trust-anchor {
+    background: rgba(79,163,224,0.08); border-bottom: 1px solid rgba(79,163,224,0.15);
+    padding: 8px 0; text-align: center; font-size: 11px;
+    color: var(--accent); letter-spacing: 1px;
+    font-family: 'DM Mono', monospace;
+  }
+  main { width: 100%; max-width: 500px; margin: 0 auto; padding: 24px 15px; flex: 1; }
+
+  /* Card */
+  .card-shell {
+    border-radius: 18px; overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    animation: fadeIn 0.35s ease;
+  }
+  .card-top {
+    background: var(--card); padding: 28px 22px 22px;
+    text-align: center; border: 1px solid var(--border);
+    border-bottom: none; border-radius: 18px 18px 0 0;
+  }
+  .card-body {
+    background: var(--card2); padding: 20px 20px 24px;
+    border: 1px solid var(--border); border-top: none;
+    border-radius: 0 0 18px 18px;
+  }
+
+  /* Progress dots */
+  .progress-dots {
+    display: flex; gap: 7px; justify-content: center; margin-bottom: 18px;
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); transition: all 0.3s;
+  }
+  .dot.done { background: var(--accent); opacity: 0.5; }
+  .dot.active { background: var(--accent); opacity: 1; width: 22px; border-radius: 4px; }
+
+  /* Option buttons */
+  .opt-btn {
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    padding: 14px 16px; border-radius: 10px; margin-bottom: 8px;
+    cursor: pointer; display: flex; justify-content: space-between;
+    align-items: center; font-size: 15px; transition: all 0.18s;
+    -webkit-tap-highlight-color: transparent; user-select: none;
+  }
+  .opt-btn:hover { border-color: var(--accent); background: rgba(79,163,224,0.08); transform: translateX(4px); }
+  .opt-btn:active { transform: translateX(2px) scale(0.99); opacity: 0.8; }
+  .opt-btn .arrow { color: var(--dim); font-size: 14px; transition: 0.18s; }
+  .opt-btn:hover .arrow { color: var(--accent); transform: translateX(3px); }
+
+  /* Back button */
+  .btn-back {
+    display: flex; align-items: center; gap: 5px; cursor: pointer;
+    font-size: 11px; color: var(--dim); margin-bottom: 14px;
+    font-family: 'DM Mono', monospace; transition: 0.2s; width: fit-content;
+  }
+  .btn-back:hover { color: var(--accent); }
+
+  .step-hint {
+    margin-top: 14px; font-size: 10px; opacity: 0.3;
+    text-align: center; font-family: 'DM Mono', monospace; letter-spacing: 1px;
+  }
+
+  /* CTA */
+  .cta-btn {
+    display: block; background: var(--accent); color: white;
+    padding: 18px; border-radius: 12px; text-decoration: none;
+    font-weight: bold; text-align: center; font-size: 17px;
+    box-shadow: 0 8px 24px rgba(79,163,224,0.35); transition: 0.3s;
+    letter-spacing: 0.5px;
+  }
+  .cta-btn:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(79,163,224,0.45); }
+  .cta-btn:active { transform: translateY(0); }
+
+  /* Risk meter */
+  .risk-seg {
+    height: 9px; width: 30px; border-radius: 3px; transition: all 0.5s;
+  }
+
+  /* Quote box */
+  .quote-box {
+    background: rgba(79,163,224,0.06); padding: 15px 18px;
+    border-radius: 10px; margin-bottom: 20px;
+    border-left: 3px solid var(--accent);
+    font-size: 13px; font-style: italic; opacity: 0.85; line-height: 1.7;
+  }
+
+  /* Share */
+  .share-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8px; margin-top: 14px;
+  }
+  .share-item {
+    border: 1px solid var(--border); padding: 10px 5px;
+    border-radius: 8px; font-size: 10px; color: var(--dim);
+    cursor: pointer; display: flex; flex-direction: column;
+    align-items: center; gap: 6px; background: rgba(255,255,255,0.02);
+    text-decoration: none; transition: 0.2s; font-family: 'DM Mono', monospace;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .share-item:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+  .share-icon { font-size: 15px; font-weight: 700; }
+  .icon-line    { color: var(--line); }
+  .icon-threads { color: var(--threads); }
+  .icon-fb      { color: var(--fb); }
+  .icon-ig      { background: var(--ig-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  /* Tag chips */
+  .tag-chip {
+    display: inline-block; font-size: 10px; padding: 3px 9px;
+    border: 1px solid rgba(79,163,224,0.3); border-radius: 20px;
+    color: var(--dim); margin: 2px; font-family: 'DM Mono', monospace;
+  }
+
+  footer {
+    margin-top: 40px; padding: 28px 20px; text-align: center;
+    border-top: 1px solid var(--border); opacity: 0.55; font-size: 11px;
+  }
+
+  @keyframes fadeIn  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes spin    { to { transform: rotate(360deg); } }
+  @keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 </style>
 </head>
 <body>
 
-  <header>
-    <div class="brand-group">
-      <span style="font-size: 18px;">🏝️</span>
-      <div>
-        <div style="font-weight: 900; font-size: 14px;">浮島深聊</div>
-        <div style="font-size: 8px; font-family: 'DM Mono'; opacity: 0.5;">fudao-talk.lab</div>
-      </div>
+<header>
+  <div class="brand-group">
+    <span style="font-size: 18px;">🏝️</span>
+    <div>
+      <div style="font-weight: 900; font-size: 14px;">浮島深聊</div>
+      <div style="font-size: 8px; font-family: 'DM Mono'; opacity: 0.45; letter-spacing: 1px;">fudao-talk.lab</div>
     </div>
-    <a href="https://readdy.cc/preview/c0d8649c-b49c-415a-9346-9694f158f6f6/7217984/about" class="about-link" target="_blank">關於團隊</a>
-  </header>
-
-  <div class="trust-anchor">
-    🛡️ 捷啟智慧科技 JC Tech 官方開發｜台南在地職涯研發團隊
   </div>
+  <div class="btn-reset" onclick="restart()">↺ 重新開始</div>
+</header>
 
-  <main id="app"></main>
+<div class="trust-anchor">🛡️ 捷啟智慧科技 JC Tech 官方開發｜冷啟動測試版</div>
 
-  <div class="privacy-sticky">
-    🔒 本診斷全程匿名，無需註冊、不蒐集個資，請放心測試。
-  </div>
+<main id="app"></main>
 
-  <footer>
-    <div style="font-weight: 700;">浮島深聊 · fudao-talk</div>
-    <div style="margin-top: 4px;">目前為冷啟動測試版，結果僅供參考，未來將持續優化</div>
-    <div style="margin-top: 10px; opacity: 0.5; font-size: 9px;">© 2026 JC Tech. All Rights Reserved.</div>
-  </footer>
+<footer>
+  <div style="font-weight: 700;">浮島深聊 · fudao-talk</div>
+  <div style="margin-top: 5px; opacity: 0.7;">本診斷全程匿名，不蒐集個資，結果僅供職涯參考</div>
+  <div style="margin-top: 14px; opacity: 0.35; font-size: 9px; font-family: 'DM Mono'; letter-spacing: 1px;">© 2026 JC Tech. All Rights Reserved.</div>
+</footer>
 
-  <script>
-    const TARGET_URL = "https://readdy.cc/preview/c0d8649c-b49c-415a-9346-9694f158f6f6/7217984";
-    const questions = [
-      { q: "您目前的求職狀態？", opts: ["新鮮人（應屆畢業）", "在職中，觀望新機會", "考慮離職中", "積極投遞履歷中", "準備面試中", "已拿到 Offer"], emoji: "⚓" },
-      { q: "目前最感到困擾的是？", opts: ["薪資行情不明", "履歷投遞沒回音", "職涯方向迷茫", "面試表現不穩", "不清楚離職權益"], emoji: "🌊" },
-      { q: "您的工作年資？", opts: ["0年", "1–3年", "3–5年", "5–10年", "10年以上"], emoji: "🗺️" }
+<script>
+  const TARGET_URL = "https://readdy.cc/preview/c0d8649c-b49c-415a-9346-9694f158f6f6/7217984";
+
+  const questions = [
+    {
+      q: "您目前的求職狀態？",
+      opts: ["社會新鮮人", "在職中觀望", "考慮離職中", "積極投遞中", "準備面試中"],
+      emoji: "⚓",
+      hint: "選一個最接近現況的描述"
+    },
+    {
+      q: "目前最感到困擾的是？",
+      opts: ["薪資行情不明", "履歷沒有回音", "職涯方向迷茫", "面試表現不穩", "不清楚勞動權益"],
+      emoji: "🌊",
+      hint: "選一個讓你最焦慮的痛點"
+    },
+    {
+      q: "您的工作年資？",
+      opts: ["尚未有工作經驗", "1–3 年", "3–5 年", "5 年以上"],
+      emoji: "🗺️",
+      hint: "包含兼職或實習皆可計入"
+    }
+  ];
+
+  // Result matrix: keyed by [q2_pain][q1_status_group]
+  // q1 groups: 0=新鮮人, 1=在職, 2=考慮離職, 3=積極投遞, 4=準備面試
+  // q2 pains:  0=薪資, 1=履歷, 2=迷茫, 3=面試, 4=權益
+  // q3 exp:    0=0年, 1=1-3年, 2=3-5年, 3=5年以上
+
+  function getResult(q1, q2, q3) {
+    const expLabel = ["無經驗", "1–3年經驗", "3–5年資歷", "資深工作者"][q3] || "";
+    const statusLabel = ["新鮮人", "在職觀望", "考慮離職", "積極求職中", "準備面試中"][q1] || "";
+
+    const matrix = [
+      // q2=0 薪資行情不明
+      {
+        title: "行情迷霧中的探索者", risk: 6, emoji: "🧭",
+        reason: `您是${statusLabel}，對市場薪資行情感到模糊。${q3 === 0 ? '作為新鮮人，第一份薪水往往影響往後數年的基準線，' : '以您的資歷，'}透過數據拆解找回議價底氣，是當務之急。`,
+        enc: "了解自己的市場價值，是議價桌上最強的底牌。",
+        tags: ["#薪資談判", "#市場行情", "#議價技巧"]
+      },
+      // q2=1 履歷沒回音
+      {
+        title: "沉默潛水艇", risk: 7, emoji: "🔇",
+        reason: `您正在${statusLabel}，履歷卻石沉大海。${q3 >= 2 ? '以您的資歷而言，問題通常不在實力，而在於敘事框架——' : ''}您的價值可能被埋沒在不精準的包裝中，需要優化個人定位地圖。`,
+        enc: "再好的珍珠，也需要被放在對的光線下才能發光。",
+        tags: ["#履歷健診", "#ATS優化", "#自我敘事"]
+      },
+      // q2=2 職涯方向迷茫
+      {
+        title: q3 === 0 ? "迷航新星" : "轉型十字路口", risk: 8, emoji: "🌀",
+        reason: `您是${statusLabel}（${expLabel}），核心焦慮來自定位模糊。${q3 >= 2 ? '有資歷卻不知道下一步，往往是「能力邊界」遇到「市場變化」的交叉點。' : ''}建議透過深度工具釐清長期航道，而非隨機投遞。`,
+        enc: "大海遼闊，但每個人都有屬於自己的那座島嶼。",
+        tags: ["#職涯規劃", "#定位策略", "#性格測驗"]
+      },
+      // q2=3 面試表現不穩
+      {
+        title: "最後哩路衝刺者", risk: 9, emoji: "🏁",
+        reason: `您正${statusLabel}，已接近目標，卡點在臨場應變。${q3 >= 1 ? '以您的資歷，面試表現不穩往往源於準備框架不完整，而非實力不足。' : ''}系統化地拆解高頻提問，將大幅提升錄取勝率。`,
+        enc: "最後一哩路，穩住節奏就能抵達終點。",
+        tags: ["#面試攻略", "#STAR法則", "#薪資談判"]
+      },
+      // q2=4 不清楚勞動權益
+      {
+        title: "權益蒙塵者", risk: 7, emoji: "⚖️",
+        reason: `您是${statusLabel}（${expLabel}），對自身勞動權益感到模糊。${q1 >= 2 ? '在考慮離職或求職過程中，' : ''}不了解自己的法定保障，可能在談判或離職時蒙受損失。`,
+        enc: "懂得保護自己，才能在職場上走得長遠。",
+        tags: ["#勞動法規", "#離職眉角", "#薪資談判"]
+      }
     ];
 
-    let currentStep = 0;
-    let answers = [];
+    const base = matrix[q2] || matrix[2];
 
-    function render() {
-      const q = questions[currentStep];
-      document.getElementById('app').innerHTML = `
-        <div class="card-shell">
-          <div class="card-top">
-            <div style="font-size: 38px; margin-bottom: 10px;">${q.emoji}</div>
-            <div style="font-size: 20px; font-weight: 900; line-height: 1.4;">${q.q}</div>
-          </div>
-          <div class="card-body">
-            ${q.opts.map((o, i) => `<div class="opt-btn" onclick="handleSelect(${i})">${o}<span>→</span></div>`).join('')}
-            <div style="margin-top: 15px; font-size: 10px; opacity: 0.3; text-align: center; letter-spacing: 2px;">STEP 0${currentStep+1} / 03</div>
-          </div>
+    // Adjust risk based on status + experience combination
+    let riskAdj = 0;
+    if (q1 === 0 && q3 === 0) riskAdj += 1;          // 新鮮人無經驗 → 加焦慮
+    if (q1 >= 3) riskAdj += 1;                        // 積極求職/面試 → 緊迫度高
+    if (q3 >= 2 && q2 === 2) riskAdj -= 1;           // 有資歷但迷茫 → 稍低緊迫
+
+    return { ...base, risk: Math.min(10, Math.max(1, base.risk + riskAdj)) };
+  }
+
+  let currentStep = 0;
+  let answers = [];
+
+  // --- Render question ---
+  function render() {
+    const q = questions[currentStep];
+    const total = questions.length;
+
+    const dots = questions.map((_, i) => {
+      const cls = i < currentStep ? 'dot done' : i === currentStep ? 'dot active' : 'dot';
+      return `<div class="${cls}"></div>`;
+    }).join('');
+
+    const backBtn = currentStep > 0
+      ? `<div class="btn-back" onclick="goBack()">← 上一題</div>`
+      : '';
+
+    document.getElementById('app').innerHTML = `
+      <div class="card-shell">
+        <div class="card-top">
+          <div class="progress-dots">${dots}</div>
+          <div style="font-size: 38px; margin-bottom: 12px;">${q.emoji}</div>
+          <div style="font-size: 21px; font-weight: 900; line-height: 1.45;">${q.q}</div>
+          <div style="font-size: 11px; opacity: 0.4; margin-top: 8px; font-family: 'DM Mono';">${q.hint}</div>
         </div>
-      `;
-    }
-
-    function handleSelect(index) {
-      answers.push(index);
-      if (currentStep < questions.length - 1) {
-        currentStep++; render();
-      } else {
-        showLoading();
-      }
-    }
-
-    function showLoading() {
-      document.getElementById('app').innerHTML = `<div style="padding: 100px 0; text-align: center;"><div style="width: 30px; height: 30px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div><p style="margin-top: 20px; opacity: 0.6; font-size: 13px;">正在由 JC Tech 引擎分析您的職涯數據...</p></div>`;
-      setTimeout(showResult, 1200);
-    }
-
-    function showResult() {
-      const [q1, q2, q3] = answers;
-      let res = { title: "職涯探索者", risk: 5, reason: "您目前處於穩健階段，建議優化現有技能組合。", encourage: "平靜的海面練不出精悍的水手。" };
-
-      // 根據 Q2 困擾點進行動態分類
-      if (q2 === 0) { // 薪資行情
-        res = { title: "市場價值評估中", risk: 6, reason: "您對目前的薪資定位感到模糊，這通常源於市場資訊不對稱。", encourage: "了解價值，是議價的第一步。" };
-      } else if (q2 === 1) { // 履歷沒回音
-        res = { title: "履歷撞牆期", risk: 7, reason: "您的實力可能被埋沒在不精準的關鍵字中，建議重新優化履歷地圖。", encourage: "再好的珍珠也需要被放在對的光線下。" };
-      } else if (q2 === 2) { // 職涯迷茫
-        res = { title: "職涯定位迷茫者", risk: 8, reason: "核心焦慮來自於定位模糊，建議先透過深度測驗釐清優勢。", encourage: "大海雖然遼闊，但總有一座島嶼屬於你。" };
-      } else if (q2 === 3) { // 面試表現
-        res = { title: "面試實戰突破者", risk: 9, reason: "實力已獲門票，目前的瓶頸在於面試現場的壓力調控與應變。", encourage: "最後一哩路，穩住就能抵達目的地。" };
-      }
-
-      let segs = "";
-      for(let i=1; i<=10; i++) {
-        const color = i <= 4 ? "#4cc98a" : (i <= 7 ? "#4fa3e0" : "#e05c5c");
-        segs += `<div style="height: 8px; width: 30px; border-radius: 2px; background:${i<=res.risk ? color : 'rgba(255,255,255,0.05)'}; box-shadow:${i<=res.risk ? '0 0 8px '+color+'44' : 'none'}"></div>`;
-      }
-
-      const encodedUrl = encodeURIComponent(window.location.href);
-      const encodedText = encodeURIComponent(`我在「職涯導航儀」測出的結果是：${res.title}（焦慮指數 ${res.risk}/10）！你也來試試看吧（全程匿名）：`);
-
-      document.getElementById('app').innerHTML = `
-        <div class="card-shell">
-          <div class="card-top">
-            <div style="font-size: 40px;">🎯</div>
-            <div style="color:var(--accent); font-size:10px; font-weight:bold; letter-spacing:3px; margin-top:10px;">✦ 診斷完成 ✦</div>
-            <div style="font-size: 28px; font-weight: 900; margin: 10px 0;">${res.title}</div>
-            <p style="font-size: 14px; opacity: 0.7; line-height: 1.6;">${res.reason}</p>
-          </div>
-          <div class="card-body">
-            <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:10px; opacity:0.6;">
-              <span>⚡ 緊迫指數評估</span><span style="color:var(--accent); font-weight:bold;">${res.risk} / 10</span>
-            </div>
-            <div style="display:flex; gap:4px; justify-content:center; margin-bottom:20px;">${segs}</div>
-            
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-bottom:20px; text-align: left; border-left: 3px solid var(--accent); font-size:13px; font-style:italic; opacity:0.8;">
-                "${res.encourage}"
-            </div>
-
-            <div style="font-size: 11px; color: var(--accent); text-align: center; margin-bottom: 8px; opacity: 0.8; line-height: 1.4;">
-                點擊進入浮島深聊官方平台<br>查看完整職涯報告（全程匿名、無需註冊）
-            </div>
-            <a href="${TARGET_URL}" target="_blank" class="cta-btn">開啟完整報告 →</a>
-
-            <div style="text-align: center; margin-top: 25px;">
-                <div style="font-size: 11px; opacity: 0.4; margin-bottom: 10px;">—— 匿名分享診斷結果 ——</div>
-                <div class="share-grid">
-                    <a class="share-item" href="https://line.me/R/msg/text/?${encodedText}${encodedUrl}" target="_blank"><span class="icon-line">LINE</span>好友</a>
-                    <a class="share-item" href="https://www.threads.net/intent/post?text=${encodedText}${encodedUrl}" target="_blank"><span class="icon-threads">Threads</span>串文</a>
-                    <div class="share-item" onclick="shareToIG('${res.title}', ${res.risk})"><span class="icon-ig">Instagram</span>限動</div>
-                    <a class="share-item" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank"><span class="icon-fb">FB</span>貼文</a>
-                </div>
-            </div>
-
-            <div style="font-size: 9px; opacity: 0.3; text-align: center; margin-top: 20px;">
-              本診斷為冷啟動測試版，結果僅供參考，未來將持續優化。
-            </div>
-
-            <button onclick="location.reload()" style="background: none; border: none; color: #7aa8cc; font-size: 11px; margin-top: 20px; width: 100%; cursor: pointer; text-decoration: underline;">↺ 重新診斷</button>
-          </div>
+        <div class="card-body">
+          ${backBtn}
+          ${q.opts.map((o, i) => `
+            <div class="opt-btn" onclick="handleSelect(${i})">
+              <span>${o}</span>
+              <span class="arrow">→</span>
+            </div>`).join('')}
+          <div class="step-hint">STEP 0${currentStep + 1} / 0${total}</div>
         </div>
-      `;
-    }
+      </div>`;
+  }
 
-    function shareToIG(title, risk) {
-      const text = `我在「職涯導航儀」測出的結果是：${title}（焦慮指數 ${risk}/10）！推薦大家也來測測看！ #浮島深聊 #職涯導航`;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("✨ 已複製診斷結果文字！\n\n請截圖此頁面，開啟 Instagram 限動並貼上文字分享。");
-        window.location.href = "instagram://camera"; 
-      }).catch(() => { alert("請截圖此頁面分享至 Instagram 限動！"); });
+  function handleSelect(index) {
+    answers[currentStep] = index;
+    if (currentStep < questions.length - 1) {
+      currentStep++;
+      render();
+    } else {
+      showLoading();
     }
+  }
 
+  function goBack() {
+    if (currentStep > 0) {
+      currentStep--;
+      render();
+    }
+  }
+
+  function restart() {
+    currentStep = 0;
+    answers = [];
     render();
-  </script>
+  }
+
+  // --- Loading ---
+  function showLoading() {
+    document.getElementById('app').innerHTML = `
+      <div style="padding: 90px 0; text-align: center;">
+        <div style="width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.9s linear infinite; margin: 0 auto;"></div>
+        <p style="margin-top: 22px; opacity: 0.5; font-size: 13px; font-family: 'DM Mono'; letter-spacing: 1px;">正在分析職涯導航數據...</p>
+        <p style="margin-top: 6px; opacity: 0.3; font-size: 11px;">依據您的三項回答進行個人化分析</p>
+      </div>`;
+    setTimeout(showResult, 1400);
+  }
+
+  // --- Result ---
+  function showResult() {
+    const [q1, q2, q3] = answers;
+    const res = getResult(q1 ?? 0, q2 ?? 0, q3 ?? 0);
+
+    // Build risk segments
+    let segs = "";
+    for (let i = 1; i <= 10; i++) {
+      let color = i <= 4 ? "var(--green)" : i <= 7 ? "var(--accent)" : "var(--red)";
+      const active = i <= res.risk;
+      segs += `<div class="risk-seg" style="background:${active ? color : 'rgba(255,255,255,0.06)'}; box-shadow:${active ? '0 0 10px ' + color + '55' : 'none'}; transition-delay:${i * 60}ms;"></div>`;
+    }
+
+    const pageUrl  = window.location.href;
+    const shareMsg = `我在「職涯導航儀」測出：${res.title}（緊迫指數 ${res.risk}/10）！推薦你也來匿名測測看：`;
+    // ✅ FIX: properly encode text + URL together with newline separator
+    const lineUrl    = `https://line.me/R/msg/text/?${encodeURIComponent(shareMsg + '\n' + pageUrl)}`;
+    const threadsUrl = `https://www.threads.net/intent/post?text=${encodeURIComponent(shareMsg + '\n' + pageUrl)}`;
+    const fbUrl      = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+
+    const tagsHTML = (res.tags || []).map(t => `<span class="tag-chip">${t}</span>`).join('');
+
+    document.getElementById('app').innerHTML = `
+      <div class="card-shell">
+        <div class="card-top">
+          <div style="font-size: 42px; margin-bottom: 4px;">${res.emoji}</div>
+          <div style="font-size: 27px; font-weight: 900; margin: 10px 0 6px;">${res.title}</div>
+          <p style="font-size: 13.5px; opacity: 0.72; line-height: 1.7; text-align: left; margin: 0;">${res.reason}</p>
+          <div style="margin-top: 14px;">${tagsHTML}</div>
+        </div>
+        <div class="card-body">
+
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; margin-bottom:10px; font-family:'DM Mono';">
+            <span style="opacity:0.5;">⚡ 緊迫指數評估</span>
+            <span style="color:var(--accent); font-weight:bold; font-size:13px;">${res.risk} / 10</span>
+          </div>
+          <div style="display:flex; gap:5px; justify-content:center; margin-bottom:22px;">${segs}</div>
+
+          <div class="quote-box">"${res.enc}"</div>
+
+          <p style="font-size:11px; color:var(--dim); text-align:center; margin-bottom:12px; line-height:1.6; opacity:0.85;">
+            點擊下方進入浮島深聊官方平台<br>
+            <span style="opacity:0.6;">查看完整客製報告（全程匿名、無需註冊）</span>
+          </p>
+          <a href="${TARGET_URL}" target="_blank" class="cta-btn">開啟完整報告 →</a>
+
+          <div style="text-align:center; margin-top:28px;">
+            <div style="font-size:10px; opacity:0.3; margin-bottom:10px; font-family:'DM Mono'; letter-spacing:1px;">—— 匿名分享診斷結果 ——</div>
+            <div class="share-grid">
+              <a class="share-item" href="${lineUrl}" target="_blank">
+                <span class="share-icon icon-line">LINE</span>好友
+              </a>
+              <a class="share-item" href="${threadsUrl}" target="_blank">
+                <span class="share-icon icon-threads">Threads</span>串文
+              </a>
+              <div class="share-item" onclick="shareToIG('${res.title}', ${res.risk})">
+                <span class="share-icon icon-ig">IG</span>限動
+              </div>
+              <a class="share-item" href="${fbUrl}" target="_blank">
+                <span class="share-icon icon-fb">FB</span>貼文
+              </a>
+            </div>
+          </div>
+
+          <div onclick="restart()" style="text-align:center; margin-top:20px; cursor:pointer; font-size:11px; opacity:0.35; font-family:'DM Mono'; transition:0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='0.35'">↺ 重新測驗</div>
+        </div>
+      </div>`;
+  }
+
+  // ✅ FIX: proper error handling for clipboard API
+  function shareToIG(title, risk) {
+    const text = `我在「職涯導航儀」測出：${title}（緊迫指數 ${risk}/10）！\n推薦你也來匿名測測看 👉 ${window.location.href}\n\n#浮島深聊 #職涯導航 #求職`;
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          alert("✨ 文案已複製！\n\n請截圖此頁面後，開啟 Instagram 限動貼上文字即可分享。");
+          // Only open instagram:// on mobile to avoid broken redirect on desktop
+          if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
+            window.location.href = "instagram://camera";
+          }
+        })
+        .catch(() => promptManualCopy(text));
+    } else {
+      promptManualCopy(text);
+    }
+  }
+
+  function promptManualCopy(text) {
+    // Fallback: prompt with text for manual copy
+    window.prompt("請手動複製以下文案：", text);
+  }
+
+  // Init
+  render();
+</script>
 </body>
 </html>
